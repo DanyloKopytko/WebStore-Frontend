@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,20 +7,50 @@ import {
 } from "react-router-dom";
 
 import Login from './Components/Login'
+import Register from './Components/Register'
 
 function App() {
+
+    const showLogin = () => {
+        return (
+            <>
+                <Login/>
+                <button onClick={() => setAuthStatus(false)}>I don't have an account</button>
+            </>
+        )
+    }
+
+    const showRegister = () => {
+        return (
+            <>
+                <Register/>
+                <button onClick={() => setAuthStatus(true)}>Already have an account?</button>
+            </>
+        )
+    }
+
+    const changeMenuStatus = () => {
+        return setMenuStatus(prevMenuStatus => !prevMenuStatus);
+    }
+
+    const [authStatus, setAuthStatus] = useState(false);
+    const [menuStatus, setMenuStatus] = useState(false)
+
     return (
-        <Router>
-            <div>
-                {/*<Link to="/register">Register </Link>*/}
-                <Link to="/login">Login </Link>
-            </div>
-            <Switch>
-                {/*<Route path='/register' component={Register}/>*/}
-                <Route path='/login' component={Login}/>
-            </Switch>
-        </Router>
+        <>
+            <button onClick={() => changeMenuStatus()}>
+                Menu
+            </button>
+            {menuStatus && (authStatus ? showLogin() : showRegister())}
+            <Router>
+                <Switch>
+                </Switch>
+            </Router>
+
+        </>
     )
+
+
 }
 
 

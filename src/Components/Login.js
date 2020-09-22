@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { connect } from "react-redux";
-import post from "../Utils/post";
 
+import post from "../Utils/post";
 import {signUp} from "../Actions/userFlow";
 
 const Login = ({signUp}) => {
