@@ -1,6 +1,6 @@
-import post from '../Utils/post'
+import post from '../utils/post';
 
-import {SIGN_IN_SUCCESS} from '../Types'
+import {SIGN_IN_SUCCESS} from '../types';
 
 export function signUp(userData, staySigned) {
     return async dispatch => {
@@ -21,7 +21,7 @@ export function signUp(userData, staySigned) {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 }
 
 export function signUpByToken() {
@@ -35,5 +35,5 @@ export function signUpByToken() {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 }

@@ -4,24 +4,23 @@ import {
     Switch,
     Route,
     Link,
-} from "react-router-dom";
-import {connect} from 'react-redux'
+} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import Login from './Components/Login'
-import Register from './Components/Register'
-import {signUpByToken} from "./Actions/userFlow"
+import Login from './components/Login';
+import Register from './components/Register';
+import {signUpByToken} from './actions/userFlow';
 
 function App({signUpByToken, name, id, role}) {
 
     useEffect(() => {
         async function fetchData() {
-            await signUpByToken()
+            await signUpByToken();
         }
 
-        (JSON.parse(localStorage.getItem('tokens'))?.accessToken ||
-        JSON.parse(sessionStorage.getItem('tokens'))?.accessToken) &&
-        fetchData()
-    }, [])
+        JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens'))?.accessToken &&
+        fetchData();
+    }, []);
 
     const showLogin = () => {
         return (
@@ -29,8 +28,8 @@ function App({signUpByToken, name, id, role}) {
                 <Login/>
                 <button onClick={() => setAuthStatus(false)}>I don't have an account</button>
             </>
-        )
-    }
+        );
+    };
 
     const showRegister = () => {
         return (
@@ -38,15 +37,15 @@ function App({signUpByToken, name, id, role}) {
                 <Register/>
                 <button onClick={() => setAuthStatus(true)}>Already have an account?</button>
             </>
-        )
-    }
+        );
+    };
 
     const changeMenuStatus = () => {
         return setMenuStatus(prevMenuStatus => !prevMenuStatus);
-    }
+    };
 
     const [authStatus, setAuthStatus] = useState(false);
-    const [menuStatus, setMenuStatus] = useState(false)
+    const [menuStatus, setMenuStatus] = useState(false);
 
     return (
         <>
@@ -60,9 +59,7 @@ function App({signUpByToken, name, id, role}) {
             </Router>
 
         </>
-    )
-
-
+    );
 }
 
 function mapStateToProps({userInfo}) {
@@ -70,9 +67,9 @@ function mapStateToProps({userInfo}) {
         name: userInfo.name,
         id: userInfo.id,
         role: userInfo.role
-    }
+    };
 }
 
-const mapDispatchToProps = {signUpByToken}
+const mapDispatchToProps = {signUpByToken};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
