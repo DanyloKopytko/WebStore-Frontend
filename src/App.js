@@ -1,15 +1,27 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link,
 } from "react-router-dom";
+import {connect} from 'react-redux'
 
 import Login from './Components/Login'
 import Register from './Components/Register'
+import {signUpByToken} from "./Actions/userFlow"
 
-function App() {
+function App({signUpByToken, name, id, role}) {
+
+    useEffect(() => {
+        async function fetchData() {
+            await signUpByToken()
+        }
+
+        (JSON.parse(localStorage.getItem('tokens'))?.accessToken ||
+        JSON.parse(sessionStorage.getItem('tokens'))?.accessToken) &&
+        fetchData()
+    }, [])
 
     const showLogin = () => {
         return (
@@ -53,5 +65,14 @@ function App() {
 
 }
 
+function mapStateToProps({userInfo}) {
+    return {
+        name: userInfo.name,
+        id: userInfo.id,
+        role: userInfo.role
+    }
+}
 
-export default App;
+const mapDispatchToProps = {signUpByToken}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

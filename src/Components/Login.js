@@ -14,7 +14,6 @@ const Login = ({signUp}) => {
                 pass: e.target.pass.value
             })
             console.log(res)
-            console.log(e.target.staySigned.checked);
             res.data?.error ? alert(res.data.message) : await signUp(res.data, e.target.staySigned.checked);
         } catch (e) {
             alert(e.message)
