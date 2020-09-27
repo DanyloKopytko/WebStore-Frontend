@@ -12,9 +12,9 @@ import {signUpByToken} from './actions/userFlow';
 
 function App({signUpByToken, staySigned}) {
     const history = useHistory();
-
     useEffect(() => {
         async function fetchData() {
+
             await signUpByToken(history, staySigned);
         }
 

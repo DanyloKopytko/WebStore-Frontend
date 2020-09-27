@@ -29,8 +29,8 @@ export function signUpByToken(history, staySigned) {
     return async dispatch => {
         try {
             const accessToken = JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens')).accessToken;
-
-            const {data: {user}} = await requester('post', 'http://localhost:3000/auth/getUserByAccessToken', {accessToken: accessToken}, signOut, staySigned, history)
+            console.log('fdas')
+            const {data: {user}} = await requester('post', 'http://localhost:3000/auth/getUserByAccessToken', {accessToken: accessToken}, staySigned, history, signOut)
 
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const requester = async (method, url, data, ...rest) => {
+const requester = async (method, url, data, staySigned, history, signOut) => {
     const accessToken = JSON.parse(sessionStorage.getItem('tokens')).accessToken
 
     const response = await axios({
@@ -11,18 +11,16 @@ const requester = async (method, url, data, ...rest) => {
     });
 
     if (response.data.message === 'jwt expired') {
-        console.log('gotcha if');
         const tokens = await axios.post('http://localhost:3000/auth/refreshTokens', {},
             {
                 headers:
                     {Authorization: JSON.parse(sessionStorage.getItem('tokens'))?.refreshToken}
             }
         );
-        console.log(tokens);
 
         if (tokens.data.message === 'Bad token') {
-            rest.signOut();
-            return rest.history.push('/error');
+            signOut();
+            return history.push('/error');
         }
 
         const tokenPair = JSON.stringify({
@@ -30,8 +28,8 @@ const requester = async (method, url, data, ...rest) => {
             refreshToken: tokens.data.refreshToken
         });
 
-        rest.staySigned ? localStorage.setItem('tokens', tokenPair) : sessionStorage.setItem('tokens', tokenPair);
-        await requester(method, url, data, ...rest);
+        staySigned ? localStorage.setItem('tokens', tokenPair) : sessionStorage.setItem('tokens', tokenPair);
+        await requester(method, url, data, staySigned, history, signOut);
     }
     return response;
 };
