@@ -2,20 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
 } from 'react-router-dom';
 import {connect} from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 import Login from './components/Login';
 import Register from './components/Register';
 import {signUpByToken} from './actions/userFlow';
 
-function App({signUpByToken, name, id, role}) {
+function App({signUpByToken, staySigned}) {
+    const history = useHistory();
 
     useEffect(() => {
         async function fetchData() {
-            await signUpByToken();
+            await signUpByToken(history, staySigned);
         }
 
         JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens'))?.accessToken &&
@@ -66,7 +66,8 @@ function mapStateToProps({userInfo}) {
     return {
         name: userInfo.name,
         id: userInfo.id,
-        role: userInfo.role
+        role: userInfo.role,
+        staySigned: userInfo.staySigned
     };
 }
 
