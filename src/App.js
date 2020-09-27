@@ -4,18 +4,21 @@ import {
     Switch,
 } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 
 import Login from './components/Login';
 import Register from './components/Register';
-import {signUpByToken} from './actions/userFlow';
+import {signUpByToken, signOut} from './actions/userFlow';
 
-function App({signUpByToken, staySigned}) {
+function App({signUpByToken, signOut}) {
     const history = useHistory();
+
+    const [authStatus, setAuthStatus] = useState(false);
+    const [menuStatus, setMenuStatus] = useState(false);
+
     useEffect(() => {
         async function fetchData() {
-
-            await signUpByToken(history, staySigned);
+            await signUpByToken(history, signOut);
         }
 
         JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens'))?.accessToken &&
@@ -44,9 +47,6 @@ function App({signUpByToken, staySigned}) {
         return setMenuStatus(prevMenuStatus => !prevMenuStatus);
     };
 
-    const [authStatus, setAuthStatus] = useState(false);
-    const [menuStatus, setMenuStatus] = useState(false);
-
     return (
         <>
             <button onClick={() => changeMenuStatus()}>
@@ -67,10 +67,9 @@ function mapStateToProps({userInfo}) {
         name: userInfo.name,
         id: userInfo.id,
         role: userInfo.role,
-        staySigned: userInfo.staySigned
     };
 }
 
-const mapDispatchToProps = {signUpByToken};
+const mapDispatchToProps = {signUpByToken, signOut};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

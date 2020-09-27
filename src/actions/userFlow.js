@@ -2,7 +2,7 @@ import {SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS} from '../types';
 
 import requester from "../factories/requester";
 
-export function signUp(userData, staySigned) {
+export function signUp(userData) {
     return async dispatch => {
         try {
             const tokens = JSON.stringify({
@@ -14,10 +14,11 @@ export function signUp(userData, staySigned) {
                 mail: userData.mail,
                 id: userData.id,
                 avatar_url: userData.avatar_url,
-                role: userData.role,
-                staySigned
+                role: userData.role
             };
-            staySigned ? localStorage.setItem('tokens', tokens) : sessionStorage.setItem('tokens', tokens);
+
+            JSON.parse(localStorage.getItem('staySigned')) ? localStorage.setItem('tokens', tokens) : sessionStorage.setItem('tokens', tokens);
+
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {
             console.log(e);
@@ -25,12 +26,10 @@ export function signUp(userData, staySigned) {
     };
 }
 
-export function signUpByToken(history, staySigned) {
+export function signUpByToken(history, signOut) {
     return async dispatch => {
         try {
-            const accessToken = JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens')).accessToken;
-            console.log('fdas')
-            const {data: {user}} = await requester('post', 'http://localhost:3000/auth/getUserByAccessToken', {accessToken: accessToken}, staySigned, history, signOut)
+            const {data: {user}} = await requester('post', `${process.env.REACT_APP_BACKEND_URL}auth/getUserByAccessToken`, {}, history, signOut);
 
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {

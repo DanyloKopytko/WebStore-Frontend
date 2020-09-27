@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const requester = async (method, url, data, staySigned, history, signOut) => {
-    const accessToken = JSON.parse(sessionStorage.getItem('tokens')).accessToken
+const requester = async (method, url, data, ...rest) => {
+    const accessToken = JSON.parse(sessionStorage.getItem('tokens') || localStorage.getItem('tokens')).accessToken;
+
+    const [history, signOut] = rest;
 
     const response = await axios({
         method,
@@ -14,7 +16,7 @@ const requester = async (method, url, data, staySigned, history, signOut) => {
         const tokens = await axios.post('http://localhost:3000/auth/refreshTokens', {},
             {
                 headers:
-                    {Authorization: JSON.parse(sessionStorage.getItem('tokens'))?.refreshToken}
+                    {Authorization: JSON.parse(sessionStorage.getItem('tokens') || localStorage.getItem('tokens'))?.refreshToken}
             }
         );
 
@@ -28,8 +30,8 @@ const requester = async (method, url, data, staySigned, history, signOut) => {
             refreshToken: tokens.data.refreshToken
         });
 
-        staySigned ? localStorage.setItem('tokens', tokenPair) : sessionStorage.setItem('tokens', tokenPair);
-        await requester(method, url, data, staySigned, history, signOut);
+        JSON.parse(localStorage.getItem('staySigned')) ? localStorage.setItem('tokens', tokenPair) : sessionStorage.setItem('tokens', tokenPair);
+        await requester(method, url, data, ...rest);
     }
     return response;
 };

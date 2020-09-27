@@ -9,7 +9,7 @@ const emptyStore = {
     avatar_url: null,
     role: 'user',
     phone_number: null,
-    verified: false
+    verified: false,
 };
 
 const initStore = {...emptyStore};
