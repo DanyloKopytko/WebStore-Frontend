@@ -2,13 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
+    Link,
+    Route
 } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { useHistory } from 'react-router-dom'
 
+import UserHomePage from './pages/UserHomePage'
+import PrivateRouter from "./components/PrivateRouter";
 import Login from './components/Login';
 import Register from './components/Register';
 import {signUpByToken} from './actions/userFlow';
+import ErrorPage from "./pages/ErrorPage";
+
 
 function App({signUpByToken, staySigned}) {
     const history = useHistory();
@@ -54,7 +60,10 @@ function App({signUpByToken, staySigned}) {
             </button>
             {menuStatus && (authStatus ? showLogin() : showRegister())}
             <Router>
+                <Link to='/userPage'>Cabinet</Link>
                 <Switch>
+                    <PrivateRouter path='/userPage' component={UserHomePage}/>
+                    <Route path='/error' component={ErrorPage}/>
                 </Switch>
             </Router>
 

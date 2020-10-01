@@ -2,14 +2,15 @@ import {GET_FAVOURITES_SUCCESS, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS} from '../type
 
 const emptyStore = {
     id: null,
-    name: 'Guest',
-    surname: 'User',
+    name: null,
+    surname: null,
     login: null,
-    mail: null,
+    email: null,
     avatar_url: null,
     role: 'user',
     phone_number: null,
-    verified: false
+    verified: false,
+    staySigned: false
 };
 
 const initStore = {...emptyStore};

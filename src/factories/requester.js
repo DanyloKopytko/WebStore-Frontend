@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requester = async (method, url, data, staySigned, history, signOut) => {
-    const accessToken = JSON.parse(sessionStorage.getItem('tokens')).accessToken
+    const accessToken = JSON.parse(sessionStorage.getItem('tokens') || localStorage.getItem('tokens'))?.accessToken
 
     const response = await axios({
         method,

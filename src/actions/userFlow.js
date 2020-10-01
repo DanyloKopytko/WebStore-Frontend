@@ -10,13 +10,16 @@ export function signUp(userData, staySigned) {
                 refreshToken: userData.tokenPair?.refreshToken
             });
             const user = {
+                name: userData.name,
+                surname: userData.name,
                 login: userData.login,
-                mail: userData.mail,
+                email: userData.email,
                 id: userData.id,
                 avatar_url: userData.avatar_url,
                 role: userData.role,
                 staySigned
             };
+            console.log(userData)
             staySigned ? localStorage.setItem('tokens', tokens) : sessionStorage.setItem('tokens', tokens);
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {
@@ -29,8 +32,8 @@ export function signUpByToken(history, staySigned) {
     return async dispatch => {
         try {
             const accessToken = JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens')).accessToken;
-            console.log('fdas')
-            const {data: {user}} = await requester('post', 'http://localhost:3000/auth/getUserByAccessToken', {accessToken: accessToken}, staySigned, history, signOut)
+
+            const {data: {user}} = await requester('post', 'http://localhost:3000/auth/getUserByAccessToken', {}, staySigned, history, signOut)
 
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {
