@@ -2,7 +2,7 @@ import {SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS} from '../types';
 
 import requester from "../factories/requester";
 
-export function signUp(userData, staySigned) {
+export function signUp(userData) {
     return async dispatch => {
         try {
             const tokens = JSON.stringify({
@@ -16,11 +16,13 @@ export function signUp(userData, staySigned) {
                 email: userData.email,
                 id: userData.id,
                 avatar_url: userData.avatar_url,
-                role: userData.role,
-                staySigned
+                role: userData.role
             };
-            console.log(userData)
+
             staySigned ? localStorage.setItem('tokens', tokens) : sessionStorage.setItem('tokens', tokens);
+
+            JSON.parse(localStorage.getItem('staySigned')) ? localStorage.setItem('tokens', tokens) : sessionStorage.setItem('tokens', tokens);
+
             dispatch({type: SIGN_IN_SUCCESS, payload: user});
         } catch (e) {
             console.log(e);
@@ -28,7 +30,7 @@ export function signUp(userData, staySigned) {
     };
 }
 
-export function signUpByToken(history, staySigned) {
+export function signUpByToken(history, signOut) {
     return async dispatch => {
         try {
             const accessToken = JSON.parse(localStorage.getItem('tokens') || sessionStorage.getItem('tokens')).accessToken;

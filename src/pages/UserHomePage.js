@@ -7,7 +7,7 @@ const UserHomePage = ({userInfo}) => {
             <h1>Welcome back, {userInfo.name}</h1>
         </>
     ) : <></>
-}
+};
 
 function mapStateToProps({userInfo}) {
     return {

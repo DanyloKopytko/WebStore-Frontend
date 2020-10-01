@@ -10,6 +10,6 @@ const PrivateRouter = ({path, component}) => {
         return <Redirect to={{pathname: '/', state: {showInfo: true}}}/>
     }
     return <Route path={path} component={component}/>
-}
+};
 
 export default PrivateRouter;

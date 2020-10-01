@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import post from '../utils/post';
-import {signUp} from '../actions/userFlow';
+import { signUp } from '../actions/userFlow';
 
 const Login = ({signUp}) => {
     const handleLogin  = async (e) => {
@@ -14,7 +14,9 @@ const Login = ({signUp}) => {
                 pass: e.target.pass.value
             });
 
-            res.data?.error ? alert(res.data.message) : await signUp(res.data, e.target.staySigned.checked);
+            localStorage.setItem('staySigned', e.target.staySigned.checked);
+
+            res.data?.error ? alert(res.data.message) : await signUp(res.data);
         } catch (e) {
             alert(e.message);
         }
@@ -25,7 +27,7 @@ const Login = ({signUp}) => {
             <form onSubmit={(e) => handleLogin(e)}>
                 <input type='text' name='login' placeholder='Enter your login or e-mail'/>
                 <input type='password' name='pass' placeholder='Enter your password'/>
-                <input type='checkbox' name='staySigned' onChange={event => console.log(event.target.value)}/>
+                <input type='checkbox' name='staySigned'/>
                 <button>Login</button>
             </form>
         </>
