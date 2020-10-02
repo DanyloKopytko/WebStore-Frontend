@@ -10,7 +10,7 @@ const Register = () => {
         try{
             e.preventDefault();
 
-            if (e.target.pass.value !== e.target.passCheck.value) return alert('Password mismatch');
+            if (e.target.pass.value !== e.target.passConfirm.value) return alert('Password mismatch');
 
             const bodyFormData = new FormData();
 
@@ -44,7 +44,7 @@ const Register = () => {
                 <input type='text' name='login' placeholder='Login'/>
                 <input type='tel'  name='phone_number' placeholder='Phone number' pattern='\(?\+[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?'/>
                 <input type='password' name="pass" placeholder='Password'/>
-                <input type='password' name='passCheck' placeholder='Confirm password'/>
+                <input type='password' name='passConfirm' placeholder='Confirm password'/>
                 <input type='file' name='avatar'/>
                 <button>Register</button>
             </form>

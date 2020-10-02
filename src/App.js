@@ -17,7 +17,7 @@ import ErrorPage from "./pages/ErrorPage";
 import {signUpByToken, signOut} from './actions/userFlow';
 
 
-function App({signUpByToken, signOut}) {
+function App({signUpByToken, signOut, userInfo}) {
     const history = useHistory();
 
     const [authStatus, setAuthStatus] = useState(false);
@@ -61,7 +61,7 @@ function App({signUpByToken, signOut}) {
             </button>
             {menuStatus && (authStatus ? showLogin() : showRegister())}
             <Router>
-                <Link to='/userPage'>Cabinet</Link>
+                <Link to='/userPage'>{userInfo.name}</Link>
                 <Switch>
                     <PrivateRouter path='/userPage' component={UserHomePage}/>
                     <Route path='/error' component={ErrorPage}/>
@@ -73,11 +73,7 @@ function App({signUpByToken, signOut}) {
 }
 
 function mapStateToProps({userInfo}) {
-    return {
-        name: userInfo.name,
-        id: userInfo.id,
-        role: userInfo.role,
-    };
+    return {userInfo};
 }
 
 const mapDispatchToProps = {signUpByToken, signOut};
