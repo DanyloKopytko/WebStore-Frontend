@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const requester = async (method, url, data, ...rest) => {
-    const accessToken = JSON.parse(sessionStorage.getItem('tokens') || localStorage.getItem('tokens')).accessToken;
-
-    const [history, signOut] = rest;
+const requester = async (method, url, data, signOut, history) => {
+    const accessToken = JSON.parse(sessionStorage.getItem('tokens') || localStorage.getItem('tokens'))?.accessToken || data.mailToken;
 
     const response = await axios({
         method,
@@ -31,7 +29,7 @@ const requester = async (method, url, data, ...rest) => {
         });
 
         JSON.parse(localStorage.getItem('staySigned')) ? localStorage.setItem('tokens', tokenPair) : sessionStorage.setItem('tokens', tokenPair);
-        await requester(method, url, data, ...rest);
+        await requester(method, url, data, signOut, history);
     }
     return response;
 };

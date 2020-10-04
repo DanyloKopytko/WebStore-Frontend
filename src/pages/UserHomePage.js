@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 import requester from "../factories/requester";
-import { signOut, signUpByToken } from "../actions/userFlow"
+import {signOut, signUpByToken} from "../actions/userFlow"
 
 const UserHomePage = ({userInfo, signOut}) => {
     const history = useHistory;
@@ -58,6 +58,15 @@ const UserHomePage = ({userInfo, signOut}) => {
         }
     };
 
+    const handleVerify = async (e) => {
+        e.preventDefault();
+        const response = await requester('post',
+            'http://localhost:3000/users/sendVerifyEmail',
+            {userEmail: userInfoState.email},
+            signOut, history);
+        return alert(response.data.message);
+    }
+
     return userInfoState.name ? (
         <>
             <h1>Welcome back, {userInfoState.name}</h1>
@@ -79,9 +88,11 @@ const UserHomePage = ({userInfo, signOut}) => {
                 <input name="avatar" type="file"/>
                 <button>Change avatar</button>
             </form>
+            {userInfoState.verified ? <p>Your account is verified</p> :
+                <button onClick={(e) => handleVerify(e)}>Verify E-mail</button>
+            }
         </>
-    ) : <>
-    </>
+    ) : <></>
 };
 
 function mapStateToProps({userInfo}) {
@@ -90,6 +101,6 @@ function mapStateToProps({userInfo}) {
     };
 }
 
-const mapDispatchToProps = { signOut, signUpByToken };
+const mapDispatchToProps = {signOut, signUpByToken};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserHomePage);

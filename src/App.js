@@ -13,7 +13,8 @@ import PrivateRouter from "./components/PrivateRouter";
 import Login from './components/Login';
 import Register from './components/Register';
 
-import ErrorPage from "./pages/ErrorPage";
+import VerifyEmail from './pages/VerifyEmail'
+import ErrorPage from './pages/ErrorPage';
 import {signUpByToken, signOut} from './actions/userFlow';
 
 
@@ -65,6 +66,7 @@ function App({signUpByToken, signOut, userInfo}) {
                 <Switch>
                     <PrivateRouter path='/userPage' component={UserHomePage}/>
                     <Route path='/error' component={ErrorPage}/>
+                    <Route path='/verifyEmail/:mailToken' component={VerifyEmail}/>
                 </Switch>
             </Router>
 
