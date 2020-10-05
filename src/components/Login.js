@@ -30,6 +30,7 @@ const Login = ({signUp}) => {
                 <input type='checkbox' name='staySigned'/>
                 <button>Login</button>
             </form>
+            <a href="http://localhost:3001/sendRefreshPass">Forgot your pass?</a>
         </>
     );
 };

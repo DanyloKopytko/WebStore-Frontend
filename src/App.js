@@ -8,13 +8,16 @@ import {
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import UserHomePage from './pages/UserHomePage'
 import PrivateRouter from "./components/PrivateRouter";
 import Login from './components/Login';
 import Register from './components/Register';
 
-import VerifyEmail from './pages/VerifyEmail'
+import VerifyEmail from './pages/VerifyEmail';
+import UserHomePage from './pages/UserHomePage';
 import ErrorPage from './pages/ErrorPage';
+import SendRefreshPass from "./pages/SendRefreshPass";
+import RefreshPass from "./pages/RefreshPass";
+
 import {signUpByToken, signOut} from './actions/userFlow';
 
 
@@ -67,6 +70,8 @@ function App({signUpByToken, signOut, userInfo}) {
                     <PrivateRouter path='/userPage' component={UserHomePage}/>
                     <Route path='/error' component={ErrorPage}/>
                     <Route path='/verifyEmail/:mailToken' component={VerifyEmail}/>
+                    <Route path={'/sendRefreshPass'} component={SendRefreshPass}/>
+                    <Route path={'/refreshPass/:refreshPass'} component={RefreshPass}/>
                 </Switch>
             </Router>
 

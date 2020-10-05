@@ -28,7 +28,6 @@ const Register = () => {
                 return alert(res.data.message);
             } else {
                 alert('Registration successful');
-                return history.push('/login');
             }
         } catch (e) {
             return alert(`${e.message}`);
